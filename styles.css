@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    font-family: sans-serif;
 }
 
 h1 {
@@ -11,18 +12,25 @@ h1 {
     height: 600px;
     border: 2px solid grey;
     display: flex;
+    flex-direction: row;
     margin: auto;
 }
 
 .square {
+    display: flex;
     width: 200px;
     height: 200px;
     border: 1px solid whitesmoke;
     background-color: #d06868;
+    align-items: center;
+    justify-content: center;
+    color: whitesmoke;
+    font-size: 120px;
 }
 
 .square:hover {
     background-color: #a66464;
+    cursor: pointer;
 }
 
 h2 {
