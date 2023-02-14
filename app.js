@@ -48,6 +48,7 @@ function makeMove() {
         this.innerText = 'X';
         playerOTurn = true;
     }
+    this.removeEventListener('click', makeMove);
 }
 
 
