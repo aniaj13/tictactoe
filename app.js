@@ -26,4 +26,12 @@ const winningCombinations = [
     [squareC, squareE, squareG],
 ];
 
+let isGameOn = false;
+let playerOTurn = false;
+playerTurnSign.innerText = '';
+startBtn.addEventListener('click', function(){
+    isGameOn = true;
+    playerOTurn = true;
+    playerTurnSign.innerText = 'O';
+})
 
