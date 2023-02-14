@@ -1,29 +1,21 @@
 const board = document.getElementById('board');
-const squareA = document.getElementById('square_a')
-const squareB = document.getElementById('square_b')
-const squareC = document.getElementById('square_c')
-const squareD = document.getElementById('square_d')
-const squareE = document.getElementById('square_e')
-const squareF = document.getElementById('square_f')
-const squareG = document.getElementById('square_g')
-const squareH = document.getElementById('square_h')
-const squareI = document.getElementById('square_i')
-
+const resetBtn = document.getElementById('resetBtn');
+let playerTurnSign = document.getElementById('playerTurnSign');
 
 const squares = document.getElementsByClassName('square');
 
-let player1Turn = true;
+let playerOTurn = true;
+playerTurnSign.innerText = 'O';
 for (let square of squares) {
    square.addEventListener('click', function () {
-       if (player1Turn) {
+       if (playerOTurn) {
+            playerTurnSign.innerText = 'X';
            square.innerText = 'O';
-           player1Turn = false;
+           playerOTurn = false;
        }
        else {
+           playerTurnSign.innerText = 'O';
            square.innerText = 'X';
-           player1Turn = true;
-       }
-
-    })
-}
+           playerOTurn = true;
+       }})}
 

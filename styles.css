@@ -33,6 +33,32 @@ h1 {
     cursor: pointer;
 }
 
+.extras {
+   display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+
 h2 {
    text-align: center;
+}
+
+.resetBtn {
+    text-align: center;
+    background-color: #a66464;
+    width: 120px;
+    height: 50px;
+    color: whitesmoke;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bold;
+
+}
+
+.resetBtn:hover {
+    background-color: #d27070;
+    cursor: pointer;
+
 }
