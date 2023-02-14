@@ -33,5 +33,23 @@ startBtn.addEventListener('click', function(){
     isGameOn = true;
     playerOTurn = true;
     playerTurnSign.innerText = 'O';
+    for (let square of squares) {
+        if (isGameOn) {
+            square.addEventListener('click', makeMove)}}
 })
+
+function makeMove() {
+    if (playerOTurn === true) {
+        playerTurnSign.innerText = 'X';
+        this.innerText = 'O';
+        playerOTurn = false;
+    } else {
+        playerTurnSign.innerText = 'O';
+        this.innerText = 'X';
+        playerOTurn = true;
+    }
+}
+
+
+
 
