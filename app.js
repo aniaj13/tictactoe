@@ -35,7 +35,11 @@ startBtn.addEventListener('click', function(){
     playerTurnSign.innerText = 'O';
     for (let square of squares) {
         if (isGameOn) {
-            square.addEventListener('click', makeMove)}}
+            square.addEventListener('click', makeMove)
+        } else {
+            removeAllSquareListeners();
+        }
+    }
 })
 
 function makeMove() {
@@ -50,6 +54,23 @@ function makeMove() {
     }
     this.removeEventListener('click', makeMove);
 }
+
+function removeAllSquareListeners() {
+    for (let square of squares) {
+        square.removeEventListener('click', makeMove)
+    }
+}
+
+    function allSame(array) {
+        const first = array[0].innerText;
+        for (let i = 1; i < array.length; i++) {
+            if (array[i].innerText === '') {
+                return false;
+            } else if (array[i].innerText !== first ) {
+                return false;
+            }
+        } return true;
+    }
 
 
 
