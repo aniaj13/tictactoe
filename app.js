@@ -74,20 +74,46 @@ function removeSquareEvents() {
                 return false;
             }
         } return true;
+
     }
 function checkWinner(){
     for (let array of winningCombinations) {
         if (allSame(array) === true) {
+            let winner = whoWon(array);
             isGameOn = false;
             console.log('GAME OVER');
+            console.log(`Player ${winner} Won!`)
             gameInfo.style.display = 'none';
             winnerInfo.style.display = 'block';
             winnerInfo.innerText = 'GAME OVER';
+            winnerInfo.innerText += ` Player ${winner} Won!`
             removeSquareEvents();
-        }
+        }}
+        if (checkTie()) {
+            console.log('Its a tie!');
+            gameInfo.style.display = 'none'
+            winnerInfo.style.display = 'block'
+            winnerInfo.innerText = 'Its a tie!'
     }
 }
 
+function whoWon(array) {
+    let first = array[0].innerText;
+    for (let i = 1; i < array.length; i++) {
+        if (array[i].innerText === '') {
+            return false;
+        } else if (array[i].innerText !== first) {
+            return false;
+        }
+    }
+    return first;
+}
 
-
+function checkTie() {
+    for (let square of squares) {
+            if (square.innerText === '') {
+                return false;
+            }
+    } return true;
+}
 
