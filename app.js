@@ -2,6 +2,7 @@ const board = document.getElementById('board');
 const resetBtn = document.getElementById('resetBtn');
 const startBtn = document.getElementById('startBtn');
 let playerTurnSign = document.getElementById('playerTurnSign');
+let winnerInfo = document.getElementById('winnerInfo');
 let gameInfo = document.getElementById('gameInfo');
 const squareA = document.getElementById('square_a');
 const squareB = document.getElementById('square_b');
@@ -28,19 +29,21 @@ const winningCombinations = [
 
 let isGameOn = false;
 let playerOTurn = false;
-playerTurnSign.innerText = '';
-startBtn.addEventListener('click', function(){
+gameInfo.style.display = 'none';
+
+
+function resetGame() {
+    winnerInfo.style.display = 'none';
+    gameInfo.style.display = 'block';
     isGameOn = true;
     playerOTurn = true;
     playerTurnSign.innerText = 'O';
     for (let square of squares) {
-        if (isGameOn) {
-            square.addEventListener('click', makeMove)
-        } else {
-            removeSquareEvents();
-        }
-    }
-})
+        square.innerText = '';
+        square.addEventListener('click', makeMove)
+}}
+startBtn.addEventListener('click', resetGame);
+resetBtn.addEventListener('click', resetGame);
 
 function makeMove() {
     if (playerOTurn === true) {
@@ -76,12 +79,15 @@ function checkWinner(){
     for (let array of winningCombinations) {
         if (allSame(array) === true) {
             isGameOn = false;
-            console.log('Game OVER');
-            gameInfo.innerText = 'GAME OVER';
+            console.log('GAME OVER');
+            gameInfo.style.display = 'none';
+            winnerInfo.style.display = 'block';
+            winnerInfo.innerText = 'GAME OVER';
             removeSquareEvents();
         }
     }
 }
+
 
 
 
