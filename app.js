@@ -37,7 +37,7 @@ startBtn.addEventListener('click', function(){
         if (isGameOn) {
             square.addEventListener('click', makeMove)
         } else {
-            removeAllSquareListeners();
+            removeSquareEvents();
         }
     }
 })
@@ -53,9 +53,10 @@ function makeMove() {
         playerOTurn = true;
     }
     this.removeEventListener('click', makeMove);
+    checkWinner();
 }
 
-function removeAllSquareListeners() {
+function removeSquareEvents() {
     for (let square of squares) {
         square.removeEventListener('click', makeMove)
     }
@@ -71,7 +72,16 @@ function removeAllSquareListeners() {
             }
         } return true;
     }
-
+function checkWinner(){
+    for (let array of winningCombinations) {
+        if (allSame(array) === true) {
+            isGameOn = false;
+            console.log('Game OVER');
+            gameInfo.innerText = 'GAME OVER';
+            removeSquareEvents();
+        }
+    }
+}
 
 
 
