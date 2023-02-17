@@ -9,12 +9,16 @@ h1 {
 }
 
 .board {
+    position: fixed;
+    top: 50%;
+    left: 50%;
     width: 600px;
     height: 600px;
     border: 2px solid grey;
     display: flex;
     flex-direction: row;
-    margin: auto;
+    margin-top: -210px;
+    margin-left: -300px;
 }
 
 .square {
@@ -35,28 +39,34 @@ h1 {
 }
 
 .extras {
-   display: flex;
+    display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 20px;
+    margin: auto;
+    margin-top: 15px;
 }
 
 h2 {
    text-align: center;
     font-size: 20px;
+    margin: auto;
 }
 
 .resetBtn {
     text-align: center;
     background-color: #a66464;
-    width: 120px;
-    height: 50px;
+    width: 200px;
+    height: 30px;
     color: whitesmoke;
     border: none;
     border-radius: 10px;
-    font-size: 20px;
+    font-size: 14px;
     font-weight: bold;
-
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: 400px;
+    margin-left: -100px;
 }
 
 .resetBtn:hover {
@@ -69,14 +79,35 @@ form {
     text-align: center;
     display: flex;
     flex-direction: column;
+    margin: auto;
 }
 
 form > * {
-    margin: 5px;
+    margin-top: 15px;
 }
+
 .startBtn {
-    width: 60px;
-    align-self: center;
-    margin: 10px;
+    width: 80px;
+    display: block;
+    margin: auto;
+    margin-top: 10px;
+    padding: 0px 12px;
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: rgb(8, 157, 92);
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    font-weight: 400;
+    height: 36px;
+    letter-spacing: 1px;
 }
+.startBtn:hover {
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    background-color: rgb(53, 208, 120);
+    border: 2px solid rgb(11, 138, 92);
+}
+
+
+
 
