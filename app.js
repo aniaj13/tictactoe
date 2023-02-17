@@ -80,7 +80,7 @@ startBtn.addEventListener('click', function(e) {
 
 function playWithPc() {
     if (playerOTurn === true) {
-        playerTurnSign.innerText = 'X';
+        playerTurnSign.innerText = 'O';
         this.innerText = 'O';
         playerOTurn = false;
         let win = checkWinner();
@@ -173,8 +173,7 @@ function checkWinner(){
             console.log(`Player ${winner} Won!`)
             gameInfo.style.display = 'none';
             winnerInfo.style.display = 'block';
-            winnerInfo.innerText = 'GAME OVER';
-            winnerInfo.innerText += ` Player ${winner} Won!`
+            winnerInfo.innerText = `Koniec Gry! Gracz "${winner}" wygrał!`;
             removeSquareEvents();
             return true;
         }
@@ -203,23 +202,21 @@ function checkTie() {
         console.log('Its a tie!')
         gameInfo.style.display = 'none'
         winnerInfo.style.display = 'block'
-        winnerInfo.innerText = 'Its a tie!'
+        winnerInfo.innerText = 'Remis!'
         removeSquareEvents();
 }
 
 
 function validateForm() {
     if (!pcChoiceBtn.checked && !playerChoiceBtn.checked) {
-        alert('pick a game mode')
+        alert('Wybierz tryb gry')
         return false;}
     return true;
 }
 function checkGameModeChoice() {
     if (pcChoiceBtn.checked) {
-        console.log('you selected pc player');
         gameMode = 'pc';
     } else if (playerChoiceBtn.checked) {
-        console.log('you selected other player');
         gameMode = 'player';
     }
 }
