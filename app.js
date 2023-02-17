@@ -32,6 +32,7 @@ const winningCombinations = [
 let isGameOn = false;
 let playerOTurn = false;
 gameInfo.style.display = 'none';
+resetBtn.style.display = 'none'
 let gameMode = null;
 
 
@@ -49,6 +50,7 @@ function resetGame() {
 resetBtn.addEventListener('click', playAgain);
 
 function playAgain() {
+    if (validateForm()) {
     resetGame();
     if (gameMode === 'player') {
         for (let square of squaresArr) {
@@ -58,7 +60,7 @@ function playAgain() {
         for (let square of squaresArr) {
             square.addEventListener('click', playWithPc);
     }
-}}
+}}}
 startBtn.addEventListener('click', function(e) {
     e.preventDefault();
     if (validateForm()) {
@@ -71,7 +73,9 @@ startBtn.addEventListener('click', function(e) {
         else if (gameMode === 'pc') {
                 for (let square of squaresArr) {
                     square.addEventListener('click', playWithPc);
-                }}}
+                }}
+    resetBtn.style.display = 'block';
+    }
 });
 
 function playWithPc() {
@@ -110,9 +114,7 @@ function pcMove() {
             }}}
 
 function checkEmpty(square) {
-    if (square.innerText !== 'X' && square.innerText !== 'O') {
-        return true
-    } return false;
+    return (square.innerText !== 'X' && square.innerText !== 'O')
 }
 
 function isBoardFull() {
