@@ -46,19 +46,29 @@ function resetGame() {
     }
 }
 
-resetBtn.addEventListener('click', resetGame);
+resetBtn.addEventListener('click', playAgain);
+
+function playAgain() {
+    resetGame();
+    if (gameMode === 'player') {
+        for (let square of squaresArr) {
+            square.addEventListener('click', makeMove)
+        }
+    } else if (gameMode === 'pc') {
+        for (let square of squaresArr) {
+            square.addEventListener('click', playWithPc);
+    }
+}}
 startBtn.addEventListener('click', function(e) {
     e.preventDefault();
     if (validateForm()) {
         resetGame();
-        let mode = checkGameModeChoice()
-        if (mode === 'player') {
-            gameMode = 'player'
-                for (let square of squaresArr) {
-                    square.addEventListener('click', makeMove)
+        checkGameModeChoice()
+        if (gameMode === 'player') {
+            for (let square of squaresArr) {
+                square.addEventListener('click', makeMove)
                 }}
-        else if (mode === 'pc') {
-            gameMode = 'pc';
+        else if (gameMode === 'pc') {
                 for (let square of squaresArr) {
                     square.addEventListener('click', playWithPc);
                 }}}
@@ -69,7 +79,13 @@ function playWithPc() {
         playerTurnSign.innerText = 'X';
         this.innerText = 'O';
         playerOTurn = false;
-        pcMove();
+        let win = checkWinner();
+        if (!win) {
+            checkTie();
+            if (checkTie) {
+                pcMove();
+            }
+        }
         playerOTurn = true;
     }
     this.removeEventListener('click', playWithPc)
@@ -131,6 +147,7 @@ function makeMove() {
 function removeSquareEvents() {
     for (let square of squaresArr) {
         square.removeEventListener('click', makeMove)
+        square.removeEventListener('click', playWithPc)
     }
 }
 
@@ -198,9 +215,9 @@ function validateForm() {
 function checkGameModeChoice() {
     if (pcChoiceBtn.checked) {
         console.log('you selected pc player');
-        return 'pc';
+        gameMode = 'pc';
     } else if (playerChoiceBtn.checked) {
         console.log('you selected other player');
-        return 'player';
+        gameMode = 'player';
     }
 }
