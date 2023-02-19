@@ -9,9 +9,11 @@ const squareF = document.getElementById('square_f');
 const squareG = document.getElementById('square_g');
 const squareH = document.getElementById('square_h');
 const squareI = document.getElementById('square_i');
+
 let playerTurnSign = document.getElementById('playerTurnSign');
 let winnerInfo = document.getElementById('winnerInfo');
 let gameInfo = document.getElementById('gameInfo');
+
 const pcChoiceBtn = document.getElementById('pcPlayer')
 const playerChoiceBtn = document.getElementById('otherPlayer')
 
@@ -35,6 +37,31 @@ gameInfo.style.display = 'none';
 resetBtn.style.display = 'none'
 let gameMode = null;
 
+startBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    if (validateForm()) {
+        resetGame();
+        checkGameModeChoice()
+        if (gameMode === 'player') {
+            for (let square of squaresArr) {
+                square.addEventListener('click', playWithPlayer)
+            }
+        } else if (gameMode === 'pc') {
+            for (let square of squaresArr) {
+                square.addEventListener('click', playWithPc);
+            }
+        }
+        resetBtn.style.display = 'block';
+    }
+});
+
+function validateForm() {
+    if (!pcChoiceBtn.checked && !playerChoiceBtn.checked) {
+        alert('Wybierz tryb gry')
+        return false;
+    }
+    return true;
+}
 
 function resetGame() {
     winnerInfo.style.display = 'none';
@@ -47,90 +74,16 @@ function resetGame() {
     }
 }
 
-resetBtn.addEventListener('click', playAgain);
-
-function playAgain() {
-    if (validateForm()) {
-    resetGame();
-    if (gameMode === 'player') {
-        for (let square of squaresArr) {
-            square.addEventListener('click', makeMove)
-        }
-    } else if (gameMode === 'pc') {
-        for (let square of squaresArr) {
-            square.addEventListener('click', playWithPc);
-    }
-}}}
-startBtn.addEventListener('click', function(e) {
-    e.preventDefault();
-    if (validateForm()) {
-        resetGame();
-        checkGameModeChoice()
-        if (gameMode === 'player') {
-            for (let square of squaresArr) {
-                square.addEventListener('click', makeMove)
-                }}
-        else if (gameMode === 'pc') {
-                for (let square of squaresArr) {
-                    square.addEventListener('click', playWithPc);
-                }}
-    resetBtn.style.display = 'block';
-    }
-});
-
-function playWithPc() {
-    if (playerOTurn === true) {
-        playerTurnSign.innerText = 'O';
-        this.innerText = 'O';
-        playerOTurn = false;
-        let win = checkWinner();
-        if (!win) {
-            checkTie();
-            if (checkTie) {
-                pcMove();
-            }
-        }
-        playerOTurn = true;
-    }
-    this.removeEventListener('click', playWithPc)
-    let win = checkWinner();
-    if (!win) {
-        checkTie();
+function checkGameModeChoice() {
+    if (pcChoiceBtn.checked) {
+        gameMode = 'pc';
+    } else if (playerChoiceBtn.checked) {
+        gameMode = 'player';
     }
 }
 
-function pcMove() {
-        let pcTurn = true
-        while (pcTurn) {
-            let i = createRandNum();
-            for (let square of squaresArr) {
-                if (checkEmpty(squaresArr[i])) {
-                    squaresArr[i].innerHTML = 'X';
-                    squaresArr[i].removeEventListener('click', playWithPc)
-                    pcTurn = false;
-                } else if (isBoardFull()) {
-                    pcTurn = false;
-                }
-            }}}
-
-function checkEmpty(square) {
-    return (square.innerText !== 'X' && square.innerText !== 'O')
-}
-
-function isBoardFull() {
-    for (let i = 0; i < squaresArr.length; i++) {
-         if (checkEmpty(squaresArr[i])) {
-             return false
-         }
-    } return true;
-}
-
-function createRandNum() {
-    return Math.floor(Math.random() * 9);
-}
-
-function makeMove() {
-    if (playerOTurn === true) {
+function playWithPlayer() {
+    if (playerOTurn) {
         playerTurnSign.innerText = 'X';
         this.innerText = 'O';
         playerOTurn = false;
@@ -139,50 +92,69 @@ function makeMove() {
         this.innerText = 'X';
         playerOTurn = true;
     }
-    this.removeEventListener('click', makeMove);
-    let win = checkWinner();
-    if (!win){
+    this.removeEventListener('click', playWithPlayer);
+    if (!checkWinner()) {
         checkTie();
     }
 }
 
+function playWithPc() {
+    if (playerOTurn) {
+        this.innerText = 'O';
+        this.removeEventListener('click', playWithPc);
+        playerOTurn = false;
+        if (!checkWinner()) {
+            if (!checkTie()) {
+                playerTurnSign.innerText = 'X';
+                setTimeout(() => {
+                    pcMove();
+                    playerOTurn = true;
+                    if (!checkWinner()) {
+                        checkTie()
+                    }
+                }, 800)
+            }
+        }
+    }
+}
+
+function pcMove() {
+    let pcTurn = true
+    while (pcTurn) {
+        let i = Math.floor(Math.random() * 9);
+        for (let square of squaresArr) {
+            if (checkIfEmpty(squaresArr[i])) {
+                squaresArr[i].innerHTML = 'X';
+                squaresArr[i].removeEventListener('click', playWithPc)
+                pcTurn = false;
+            }
+        }
+    }
+    playerTurnSign.innerText = 'O';
+}
+
+function checkIfEmpty(square) {
+    return (square.innerText !== 'X' && square.innerText !== 'O')
+}
+
+function isBoardFull() {
+    for (let i = 0; i < squaresArr.length; i++) {
+        if (checkIfEmpty(squaresArr[i])) {
+            return false
+        }
+    }
+    return true;
+}
+
 function removeSquareEvents() {
     for (let square of squaresArr) {
-        square.removeEventListener('click', makeMove)
+        square.removeEventListener('click', playWithPlayer)
         square.removeEventListener('click', playWithPc)
     }
 }
 
-    function allSame(array) {
-        const first = array[0].innerText;
-        for (let i = 1; i < array.length; i++) {
-            if (array[i].innerText === '') {
-                return false;
-            } else if (array[i].innerText !== first ) {
-                return false;
-            }
-        } return true;
-
-    }
-function checkWinner(){
-    for (let array of winningCombinations) {
-        if (allSame(array) === true) {
-            let winner = whoWon(array);
-            isGameOn = false;
-            console.log('GAME OVER');
-            console.log(`Player ${winner} Won!`)
-            gameInfo.style.display = 'none';
-            winnerInfo.style.display = 'block';
-            winnerInfo.innerText = `Koniec Gry! Gracz "${winner}" wygrał!`;
-            removeSquareEvents();
-            return true;
-        }
-    } return false;
-}
-
-
-function whoWon(array) {
-    let first = array[0].innerText;
+function allSame(array) {
+    const first = array[0].innerText;
     for (let i = 1; i < array.length; i++) {
         if (array[i].innerText === '') {
             return false;
@@ -190,33 +162,50 @@ function whoWon(array) {
             return false;
         }
     }
-    return first;
+    return true;
+
+}
+
+function checkWinner() {
+    for (let array of winningCombinations) {
+        if (allSame(array)) {
+            let winner = array[0].innerText;
+            isGameOn = false;
+            gameInfo.style.display = 'none';
+            winnerInfo.style.display = 'block';
+            winnerInfo.innerText = `Koniec Gry! Gracz "${winner}" wygrał!`;
+            removeSquareEvents();
+            return true;
+        }
+    }
+    return false;
 }
 
 function checkTie() {
-    for (let square of squaresArr) {
-            if (square.innerText === '') {
-                return false;
-            }
-    }   isGameOn = false;
-        console.log('Its a tie!')
+    if (isBoardFull()) {
+        isGameOn = false;
         gameInfo.style.display = 'none'
         winnerInfo.style.display = 'block'
         winnerInfo.innerText = 'Remis!'
         removeSquareEvents();
+        return true;
+    }
+    return false;
 }
 
+resetBtn.addEventListener('click', playAgain);
 
-function validateForm() {
-    if (!pcChoiceBtn.checked && !playerChoiceBtn.checked) {
-        alert('Wybierz tryb gry')
-        return false;}
-    return true;
-}
-function checkGameModeChoice() {
-    if (pcChoiceBtn.checked) {
-        gameMode = 'pc';
-    } else if (playerChoiceBtn.checked) {
-        gameMode = 'player';
+function playAgain() {
+    if (validateForm()) {
+        resetGame();
+        if (gameMode === 'player') {
+            for (let square of squaresArr) {
+                square.addEventListener('click', playWithPlayer)
+            }
+        } else if (gameMode === 'pc') {
+            for (let square of squaresArr) {
+                square.addEventListener('click', playWithPc);
+            }
+        }
     }
 }
