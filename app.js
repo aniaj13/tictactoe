@@ -1,211 +1,95 @@
-const resetBtn = document.getElementById('resetBtn');
-const startBtn = document.getElementById('startBtn');
-const squareA = document.getElementById('square_a');
-const squareB = document.getElementById('square_b');
-const squareC = document.getElementById('square_c');
-const squareD = document.getElementById('square_d');
-const squareE = document.getElementById('square_e');
-const squareF = document.getElementById('square_f');
-const squareG = document.getElementById('square_g');
-const squareH = document.getElementById('square_h');
-const squareI = document.getElementById('square_i');
+const SINGLE_PLAYER_MODE = 1;
+const MULTI_PLAYER_MODE = 2;
+const SQUARE_ID_TEMPLATE = "square_{row}_{column}";
+const FIRST_PLAYER_SYMBOL = 'O';
+const SECOND_PLAYER_SYMBOL = 'X';
 
-let playerTurnSign = document.getElementById('playerTurnSign');
-let winnerInfo = document.getElementById('winnerInfo');
-let gameInfo = document.getElementById('gameInfo');
-
-const pcChoiceBtn = document.getElementById('pcPlayer')
-const playerChoiceBtn = document.getElementById('otherPlayer')
-
-const squares = document.getElementsByClassName('square');
-const squaresArr = Array.from(squares);
-
-const winningCombinations = [
-    [squareA, squareD, squareG],
-    [squareB, squareE, squareH],
-    [squareC, squareF, squareI],
-    [squareA, squareB, squareC],
-    [squareD, squareE, squareF],
-    [squareG, squareH, squareI],
-    [squareA, squareE, squareI],
-    [squareC, squareE, squareG],
+const board = [
+    [null, null, null],
+    [null, null, null],
+    [null, null, null]
 ];
+const boardView = [
+    [null, null, null],
+    [null, null, null],
+    [null, null, null]
+];
+let nextPlayer;
 
-let isGameOn = false;
-let playerOTurn = false;
-gameInfo.style.display = 'none';
-resetBtn.style.display = 'none'
-let gameMode = null;
-
-startBtn.addEventListener('click', function (e) {
-    e.preventDefault();
-    if (validateForm()) {
-        resetGame();
-        checkGameModeChoice()
-        if (gameMode === 'player') {
-            for (let square of squaresArr) {
-                square.addEventListener('click', playWithPlayer)
-            }
-        } else if (gameMode === 'pc') {
-            for (let square of squaresArr) {
-                square.addEventListener('click', playWithPc);
-            }
+// TODO: const mode = getChosenMode()
+document.getElementById("start_game_button")
+    .addEventListener('click', event => {
+        event.preventDefault();
+        try {
+            initGame(MULTI_PLAYER_MODE)
+        } catch (error) {
+            console.error(error.message);
+            alert(error.message);
         }
-        resetBtn.style.display = 'block';
-    }
-});
+    });
 
-function validateForm() {
-    if (!pcChoiceBtn.checked && !playerChoiceBtn.checked) {
-        alert('Wybierz tryb gry')
-        return false;
-    }
-    return true;
-}
 
-function resetGame() {
-    winnerInfo.style.display = 'none';
-    gameInfo.style.display = 'block';
-    isGameOn = true;
-    playerOTurn = true;
-    playerTurnSign.innerText = 'O';
-    for (let square of squaresArr) {
-        square.innerText = '';
-    }
-}
-
-function checkGameModeChoice() {
-    if (pcChoiceBtn.checked) {
-        gameMode = 'pc';
-    } else if (playerChoiceBtn.checked) {
-        gameMode = 'player';
-    }
-}
-
-function playWithPlayer() {
-    if (playerOTurn) {
-        playerTurnSign.innerText = 'X';
-        this.innerText = 'O';
-        playerOTurn = false;
+function initGame(mode) {
+    if (mode === SINGLE_PLAYER_MODE) {
+        throw new Error(`Given mode SINGLE_PLAYER_MODE is not supported yet. Will be realeased in the next version`);
+        // initSinglePlayerGame();
+    } else if (mode === MULTI_PLAYER_MODE) {
+        initMultiPlayerGame();
     } else {
-        playerTurnSign.innerText = 'O';
-        this.innerText = 'X';
-        playerOTurn = true;
+        throw new Error(`Given mode ${mode} is not supported. Choose one of SINGLE_PLAYER_MODE and MULTI_PLAYER_MODE.`)
     }
-    this.removeEventListener('click', playWithPlayer);
-    if (!checkWinner()) {
-        checkTie();
-    }
+
 }
 
-function playWithPc() {
-    if (playerOTurn) {
-        this.innerText = 'O';
-        this.removeEventListener('click', playWithPc);
-        playerOTurn = false;
-        if (!checkWinner()) {
-            if (!checkTie()) {
-                playerTurnSign.innerText = 'X';
-                setTimeout(() => {
-                    pcMove();
-                    playerOTurn = true;
-                    if (!checkWinner()) {
-                        checkTie()
-                    }
-                }, 800)
-            }
+function initMultiPlayerGame() {
+    setupBoardView();
+    nextPlayer = FIRST_PLAYER_SYMBOL;
+}
+
+function setupBoardView() {
+    for (let row = 0; row < boardView.length; row++) {
+        for (let column = 0; column < boardView.length; column++) {
+            let squareId = SQUARE_ID_TEMPLATE.replace("{row}", row).replace("{column}", column);
+            boardView[row][column] = document.getElementById(squareId);
+            boardView[row][column].addEventListener('click', event => onSquareClick(event.target.id));
         }
     }
 }
 
-function pcMove() {
-    let pcTurn = true
-    while (pcTurn) {
-        let i = Math.floor(Math.random() * 9);
-        for (let square of squaresArr) {
-            if (checkIfEmpty(squaresArr[i])) {
-                squaresArr[i].innerHTML = 'X';
-                squaresArr[i].removeEventListener('click', playWithPc)
-                pcTurn = false;
-            }
+function onSquareClick(squareId) {
+    makeMove(nextPlayer, new SquareId(squareId));
+    updateBoardView(board);
+}
+
+function makeMove(playerSymbol, squareId) {
+    // free square
+    // player turn
+    // game not over
+    board[squareId.row][squareId.column] = playerSymbol;
+    // check for winner
+    switchNextPlayerTurn();
+}
+
+function switchNextPlayerTurn() {
+    nextPlayer = nextPlayer === FIRST_PLAYER_SYMBOL ? SECOND_PLAYER_SYMBOL : FIRST_PLAYER_SYMBOL;
+}
+
+function updateBoardView(board) {
+    for (let row = 0; row < board.length; row++) {
+        for (let column = 0; column < board.length; column++) {
+            boardView[row][column].innerText = board[row][column];
         }
     }
-    playerTurnSign.innerText = 'O';
 }
 
-function checkIfEmpty(square) {
-    return (square.innerText !== 'X' && square.innerText !== 'O')
-}
-
-function isBoardFull() {
-    for (let i = 0; i < squaresArr.length; i++) {
-        if (checkIfEmpty(squaresArr[i])) {
-            return false
-        }
+class SquareId {
+    constructor(squareId) {
+        let squareIdArray = squareId.split('_');
+        this.row = squareIdArray[1];
+        this.column = squareIdArray[2];
     }
-    return true;
-}
 
-function removeSquareEvents() {
-    for (let square of squaresArr) {
-        square.removeEventListener('click', playWithPlayer)
-        square.removeEventListener('click', playWithPc)
-    }
-}
-
-function allSame(array) {
-    const first = array[0].innerText;
-    for (let i = 1; i < array.length; i++) {
-        if (array[i].innerText === '') {
-            return false;
-        } else if (array[i].innerText !== first) {
-            return false;
-        }
-    }
-    return true;
-
-}
-
-function checkWinner() {
-    for (let array of winningCombinations) {
-        if (allSame(array)) {
-            let winner = array[0].innerText;
-            isGameOn = false;
-            gameInfo.style.display = 'none';
-            winnerInfo.style.display = 'block';
-            winnerInfo.innerText = `Koniec Gry! Gracz "${winner}" wygrał!`;
-            removeSquareEvents();
-            return true;
-        }
-    }
-    return false;
-}
-
-function checkTie() {
-    if (isBoardFull()) {
-        isGameOn = false;
-        gameInfo.style.display = 'none'
-        winnerInfo.style.display = 'block'
-        winnerInfo.innerText = 'Remis!'
-        removeSquareEvents();
-        return true;
-    }
-    return false;
-}
-
-resetBtn.addEventListener('click', playAgain);
-
-function playAgain() {
-    if (validateForm()) {
-        resetGame();
-        if (gameMode === 'player') {
-            for (let square of squaresArr) {
-                square.addEventListener('click', playWithPlayer)
-            }
-        } else if (gameMode === 'pc') {
-            for (let square of squaresArr) {
-                square.addEventListener('click', playWithPc);
-            }
-        }
+    toString() {
+        return `Row: ${this.row} column: ${this.column}`;
     }
 }

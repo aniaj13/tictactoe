@@ -9,14 +9,12 @@ h1 {
 }
 
 .board {
+    display: flex;
     width: 604px;
     height: 604px;
     border: 2px solid grey;
     margin: 0 auto;
-}
-
-.board_row {
-    display: flex;
+    flex-direction: row;
 }
 
 .square {

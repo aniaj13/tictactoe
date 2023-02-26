@@ -12,14 +12,14 @@
     <h2>Wybierz tryb gry:</h2>
     <form id="gameModeForm">
         <div class="wrapper">
-            <input type="radio" name="playerChoice" id="pcPlayer">
-            <label for="pcPlayer">Zagraj z komputerem</label>
+            <input type="radio" name="playerChoice" id="single_player_mode_option">
+            <label for="single_player_mode_option">Zagraj z komputerem</label>
         </div>
         <div>
-            <input type="radio" name="playerChoice" id="otherPlayer">
-            <label for="otherPlayer">Zagraj z drugim graczem</label>
+            <input type="radio" name="playerChoice" id="multi_player_mode_option">
+            <label for="multi_player_mode_option">Zagraj z drugim graczem</label>
         </div>
-        <button class="startBtn" id="startBtn">START</button>
+        <button class="start_game_button" id="start_game_button">START</button>
     </form>
 </div>
 
@@ -29,20 +29,20 @@
 </div>
 
 <div class="board" id="board">
-    <div class="column1">
-        <div class="square" id="square_a"></div>
-        <div class="square" id="square_b"></div>
-        <div class="square" id="square_c"></div>
+    <div class="board_row">
+        <div class="square" id="square_0_0"></div>
+        <div class="square" id="square_0_1"></div>
+        <div class="square" id="square_0_2"></div>
     </div>
-    <div class="column2">
-        <div class="square" id="square_d"></div>
-        <div class="square" id="square_e"></div>
-        <div class="square" id="square_f"></div>
+    <div class="board_row">
+        <div class="square" id="square_1_0"></div>
+        <div class="square" id="square_1_1"></div>
+        <div class="square" id="square_1_2"></div>
     </div>
-    <div class="column3">
-        <div class="square" id="square_g"></div>
-        <div class="square" id="square_h"></div>
-        <div class="square" id="square_i"></div>
+    <div class="board_row">
+        <div class="square" id="square_2_0"></div>
+        <div class="square" id="square_2_1"></div>
+        <div class="square" id="square_2_2"></div>
     </div>
 </div>
 
