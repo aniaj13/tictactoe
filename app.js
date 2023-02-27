@@ -62,8 +62,8 @@ function setupBoardView() {
         for (let column = 0; column < boardView.length; column++) {
             let squareId = SQUARE_ID_TEMPLATE.replace("{row}", row).replace("{column}", column);
             boardView[row][column] = document.getElementById(squareId);
-            boardView[row][column].addEventListener('click', event => onSquareClick(event.target.id));
         }
+        document.getElementById('board').addEventListener('click', event => onSquareClick(event.target.id))
     }
 }
 
