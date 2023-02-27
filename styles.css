@@ -74,6 +74,7 @@ h2 {
 }
 
 .resetBtn {
+    display: block;
     text-align: center;
     margin: 10px auto;
     background-color: #a66464;

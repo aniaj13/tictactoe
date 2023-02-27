@@ -17,11 +17,20 @@ const boardView = [
 let nextPlayer;
 
 // TODO: const mode = getChosenMode()
+function getChosenMode() {
+    if (document.getElementById('single_player_mode_option').checked) {
+        return SINGLE_PLAYER_MODE
+    } else if (document.getElementById('multi_player_mode_option').checked) {
+        return MULTI_PLAYER_MODE
+    }
+}
+
 document.getElementById("start_game_button")
     .addEventListener('click', event => {
         event.preventDefault();
+        let mode = getChosenMode()
         try {
-            initGame(MULTI_PLAYER_MODE)
+            initGame(mode);
         } catch (error) {
             console.error(error.message);
             alert(error.message);
