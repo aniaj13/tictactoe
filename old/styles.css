@@ -56,7 +56,7 @@ h1 {
     border: 2px solid rgb(11, 138, 92);
 }
 
-.extras {
+.game_info {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -71,7 +71,7 @@ h2 {
     margin: auto;
 }
 
-.resetBtn {
+.reset_game_button {
     text-align: center;
     margin: 10px auto;
     background-color: #a66464;
@@ -84,7 +84,7 @@ h2 {
     font-weight: bold;
 }
 
-.resetBtn:hover {
+.reset_game_button:hover {
     background-color: #d27070;
     cursor: pointer;
 }

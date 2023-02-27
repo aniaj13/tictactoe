@@ -6,26 +6,27 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
 <h1>Zagraj w Kółko i Krzyżyk</h1>
 
-<div class="gameModePanel">
+<div class="game_mode_panel">
     <h2>Wybierz tryb gry:</h2>
-    <form id="gameModeForm">
-        <div class="wrapper">
-            <input type="radio" name="playerChoice" id="single_player_mode_option">
+    <form id="game_mode_choice_form">
+        <div>
+            <input type="radio" name="game_mode_choice" id="single_player_mode_option">
             <label for="single_player_mode_option">Zagraj z komputerem</label>
         </div>
         <div>
-            <input type="radio" name="playerChoice" id="multi_player_mode_option">
+            <input type="radio" name="game_mode_choice" id="multi_player_mode_option">
             <label for="multi_player_mode_option">Zagraj z drugim graczem</label>
         </div>
         <button class="start_game_button" id="start_game_button">START</button>
     </form>
 </div>
 
-<div class="extras">
-    <h2 id="gameInfo">Tura gracza: <span id="playerTurnSign"></span></h2>
-    <h2 id="winnerInfo"></h2>
+<div class="game_info">
+    <h2 id="player_turn_info">Tura gracza: <span id="player_turn_symbol"></span></h2>
+    <h2 id="game_winner_info"></h2>
 </div>
 
 <div class="board" id="board">
@@ -46,8 +47,9 @@
     </div>
 </div>
 
-<button class="resetBtn" id="resetBtn">Zagraj ponownie</button>
+<button class="reset_game_button" id="reset_game_button">Zagraj ponownie</button>
 
 <script src="app.js" type="module"></script>
+
 </body>
 </html>
