@@ -1,3 +1,5 @@
+import {SquareId} from "./square_id_class.mjs";
+
 const SINGLE_PLAYER_MODE = 1;
 const MULTI_PLAYER_MODE = 2;
 const SQUARE_ID_TEMPLATE = "square_{row}_{column}";
@@ -88,17 +90,5 @@ function updateBoardView(board) {
         for (let column = 0; column < board.length; column++) {
             boardView[row][column].innerText = board[row][column];
         }
-    }
-}
-
-class SquareId {
-    constructor(squareId) {
-        let squareIdArray = squareId.split('_');
-        this.row = squareIdArray[1];
-        this.column = squareIdArray[2];
-    }
-
-    toString() {
-        return `Row: ${this.row} column: ${this.column}`;
     }
 }
