@@ -111,6 +111,7 @@ function initMultiPlayerGame() {
     setupBoardView();
     document.getElementById('board').addEventListener('click', event => onSquareClick(event.target.id))
     nextPlayer = FIRST_PLAYER_SYMBOL;
+    setPlayerTurnView(nextPlayer);
 }
 
 function setupBoardView() {
@@ -124,6 +125,10 @@ function setupBoardView() {
     document.getElementById('board').style.display = 'block'
     document.getElementById('reset_game_button').style.display = 'block'
     document.getElementById('game_mode_panel').style.display = 'none'
+}
+
+function setPlayerTurnView(nextPlayer) {
+    document.getElementById('player_turn_symbol').innerText = nextPlayer;
 }
 
 function onSquareClick(squareId) {
@@ -187,6 +192,7 @@ function isDraw() {
 
 function switchNextPlayerTurn() {
     nextPlayer = nextPlayer === FIRST_PLAYER_SYMBOL ? SECOND_PLAYER_SYMBOL : FIRST_PLAYER_SYMBOL;
+    setPlayerTurnView(nextPlayer);
 }
 
 function updateBoardView(board) {
