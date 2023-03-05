@@ -87,7 +87,7 @@ function getChosenMode() {
     if (document.getElementById('multi_player_mode_option').checked) {
         return MULTI_PLAYER_MODE
     }
-    if (!document.getElementById('single_player_mode_option').checked && !document.getElementById('multi_player_mode_option').checked){
+    if (!document.getElementById('single_player_mode_option').checked && !document.getElementById('multi_player_mode_option').checked) {
         alert('Choose a game mode to start the game.')
         return undefined
     }
@@ -109,10 +109,12 @@ function initGame(mode) {
 
 function initMultiPlayerGame() {
     setupBoardView();
+    setupPageView();
     document.getElementById('board').addEventListener('click', event => onSquareClick(event.target.id))
     nextPlayer = FIRST_PLAYER_SYMBOL;
     setPlayerTurnView(nextPlayer);
 }
+
 
 function setupBoardView() {
     for (let row = 0; row < boardView.length; row++) {
@@ -121,14 +123,17 @@ function setupBoardView() {
             boardView[row][column] = document.getElementById(squareId);
         }
     }
-    document.getElementById('game_info').style.display = 'block';
-    document.getElementById('board').style.display = 'block'
-    document.getElementById('reset_game_button').style.display = 'block'
-    document.getElementById('game_mode_panel').style.display = 'none'
 }
 
 function setPlayerTurnView(nextPlayer) {
     document.getElementById('player_turn_symbol').innerText = nextPlayer;
+}
+
+function setupPageView() {
+    document.getElementById('game_info').style.display = 'block';
+    document.getElementById('board').style.display = 'block'
+    document.getElementById('reset_game_button').style.display = 'block'
+    document.getElementById('game_mode_panel').style.display = 'none'
 }
 
 function onSquareClick(squareId) {
