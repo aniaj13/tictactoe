@@ -1,5 +1,8 @@
 import {SquareId} from "./square_id_class.js";
 
+document.getElementById('board').style.display = 'none'
+document.getElementById('reset_game_button').style.display = 'none'
+
 const SINGLE_PLAYER_MODE = 1;
 const MULTI_PLAYER_MODE = 2;
 const SQUARE_ID_TEMPLATE = "square_{row}_{column}";
@@ -116,6 +119,8 @@ function setupBoardView() {
             boardView[row][column] = document.getElementById(squareId);
         }
     }
+    document.getElementById('board').style.display = 'block'
+    document.getElementById('reset_game_button').style.display = 'block'
 }
 
 function onSquareClick(squareId) {
