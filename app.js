@@ -83,6 +83,10 @@ function getChosenMode() {
     if (document.getElementById('multi_player_mode_option').checked) {
         return MULTI_PLAYER_MODE
     }
+    if (!document.getElementById('single_player_mode_option').checked && !document.getElementById('multi_player_mode_option').checked){
+        alert('Choose a game mode to start the game.')
+        return undefined
+    }
     throw Error("Should not happen. Only single_player_mode_option and multi_player_mode_option radio buttons are available.");
 }
 
@@ -92,6 +96,8 @@ function initGame(mode) {
         // initSinglePlayerGame();
     } else if (mode === MULTI_PLAYER_MODE) {
         initMultiPlayerGame();
+    } else if (mode === undefined) {
+        return;
     } else {
         throw new Error(`Given mode ${mode} is not supported. Choose one of SINGLE_PLAYER_MODE and MULTI_PLAYER_MODE.`)
     }
