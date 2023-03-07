@@ -66,6 +66,13 @@ actual = calculateGameResult([
 ], 'O');
 expected = "WIN_O"
 console.log("expected = " + expected + " actual = " + JSON.stringify(actual));
+actual = calculateGameResult([
+    ['X', 'X', 'O'],
+    ['O', 'X', null],
+    ['O', 'O', 'X']
+], 'X');
+expected = "WIN_X"
+console.log("expected = " + expected + " actual = " + JSON.stringify(actual));
 ////////////////////////////////////////////////////////////////////////////
 
 
@@ -187,7 +194,13 @@ function hasPlayerWon(board, currentPlayerSymbol) {
         return true;
     }
     // check diagonally - left
+    if (board[0][2] === currentPlayerSymbol && board[1][1] === currentPlayerSymbol && board[2][0] === currentPlayerSymbol) {
+        return true;
+    }
     // check diagonally - right
+    if (board[0][0] === currentPlayerSymbol && board[1][1] === currentPlayerSymbol && board[2][2] === currentPlayerSymbol) {
+        return true;
+    }
     return false;
 }
 
