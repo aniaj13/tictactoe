@@ -25,56 +25,6 @@ const boardView = [
     [null, null, null]
 ];
 let nextPlayer;
-////////////////////////////////////////////////////////////////////////////
-let actual;
-let expected;
-actual = calculateGameResult([
-    [null, null, null],
-    [null, null, null],
-    [null, null, null]
-], 'X');
-expected = "IN_PROGRESS"
-console.log("expected = " + expected + " actual = " + JSON.stringify(actual));
-
-actual = calculateGameResult([
-    ['X', null, 'X'],
-    ['O', 'O', null],
-    ['O', null, 'X']
-], 'X');
-expected = "IN_PROGRESS"
-console.log("expected = " + expected + " actual = " + JSON.stringify(actual));
-
-actual = calculateGameResult([
-    ['X', null, 'X'],
-    ['O', 'O', 'O'],
-    ['O', null, 'X']
-], 'O');
-expected = "WIN_O"
-console.log("expected = " + expected + " actual = " + JSON.stringify(actual));
-
-actual = calculateGameResult([
-    ['X', null, 'X'],
-    ['O', 'O', 'X'],
-    ['O', null, 'X']
-], 'X');
-expected = "WIN_X"
-console.log("expected = " + expected + " actual = " + JSON.stringify(actual));
-actual = calculateGameResult([
-    ['X', 'X', 'O'],
-    [null, 'O', null],
-    ['O', null, null]
-], 'O');
-expected = "WIN_O"
-console.log("expected = " + expected + " actual = " + JSON.stringify(actual));
-actual = calculateGameResult([
-    ['X', 'X', 'O'],
-    ['O', 'X', null],
-    ['O', 'O', 'X']
-], 'X');
-expected = "WIN_X"
-console.log("expected = " + expected + " actual = " + JSON.stringify(actual));
-////////////////////////////////////////////////////////////////////////////
-
 
 document.getElementById("start_game_button")
     .addEventListener('click', event => {
@@ -169,7 +119,7 @@ function makeMove(playerSymbol, squareId) {
     }
     // game not over
     board[squareId.row][squareId.column] = playerSymbol;
-    let gameResult = calculateGameResult(board);
+    let gameResult = calculateGameResult(board, playerSymbol);
     switchNextPlayerTurn();
     return gameResult;
 }
@@ -186,12 +136,13 @@ function calculateGameResult(board, currentPlayerSymbol) {
 
 function hasPlayerWon(board, currentPlayerSymbol) {
     // check horizontally
-    if (board[1][0] === currentPlayerSymbol && board[1][1] === currentPlayerSymbol && board[1][2] === currentPlayerSymbol) {
-        return true;
-    }
-    // check vertically
-    if (board[0][2] === currentPlayerSymbol && board[1][2] === currentPlayerSymbol && board[2][2] === currentPlayerSymbol) {
-        return true;
+    for (let i = 0; i < 3; i++) {
+        if (board[i][0] === currentPlayerSymbol && board[i][1] === currentPlayerSymbol && board[i][2] === currentPlayerSymbol) {
+            return true
+        }
+        if (board[0][i] === currentPlayerSymbol && board[1][i] === currentPlayerSymbol && board[2][i] === currentPlayerSymbol) {
+            return true
+        }
     }
     // check diagonally - left
     if (board[0][2] === currentPlayerSymbol && board[1][1] === currentPlayerSymbol && board[2][0] === currentPlayerSymbol) {
