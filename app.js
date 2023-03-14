@@ -104,7 +104,7 @@ function onSquareClick(squareId) {
         // TODO: handle DRAW
     } else if (gameResult.result === WIN_GAME_RESULT) {
         console.log(`Player ${gameResult.winner} has won`);
-        // TODO: handle WIN
+        endGame(gameResult.winner);
     }
 }
 
@@ -170,4 +170,15 @@ function updateBoardView(board) {
             boardView[row][column].innerText = board[row][column];
         }
     }
+}
+
+function endGame(winner) {
+    document.getElementById('board').replaceWith(document.getElementById('board').cloneNode(true));
+    displayWinner(winner);
+}
+
+
+function displayWinner(winner) {
+    document.getElementById('player_turn_info').style.display = 'none'
+    document.getElementById('game_winner_info').innerText = `Player ${winner} won!`
 }
