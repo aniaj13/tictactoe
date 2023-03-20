@@ -58,7 +58,7 @@ function initGame(mode) {
     } else if (mode === MULTI_PLAYER_MODE) {
         initMultiPlayerGame();
     } else if (mode === undefined) {
-        return;
+        return undefined;
     } else {
         throw new Error(`Given mode ${mode} is not supported. Choose one of SINGLE_PLAYER_MODE and MULTI_PLAYER_MODE.`)
     }
@@ -97,13 +97,12 @@ function onSquareClick(squareId) {
     console.log(`squareId = ${squareId}`)
     let gameResult = makeMove(nextPlayer, new SquareId(squareId));
     updateBoardView(board);
+    console.log(gameResult)
     if (gameResult.result === IN_PROGRESS_GAME_RESULT) {
         console.log(`Next player: ${nextPlayer}`);
     } else if (gameResult.result === DRAW_GAME_RESULT) {
-        console.log(`Draw`);
-        // TODO: handle DRAW
+        endGame(DRAW_GAME_RESULT)
     } else if (gameResult.result === WIN_GAME_RESULT) {
-        console.log(`Player ${gameResult.winner} has won`);
         endGame(gameResult.winner);
     }
 }
@@ -128,14 +127,13 @@ function calculateGameResult(board, currentPlayerSymbol) {
     if (hasPlayerWon(board, currentPlayerSymbol)) {
         return {result: WIN_GAME_RESULT, winner: currentPlayerSymbol}
     }
-    if (isDraw()) {
+    if (isDraw(board)) {
         return {result: DRAW_GAME_RESULT}
     }
     return {result: IN_PROGRESS_GAME_RESULT}
 }
 
 function hasPlayerWon(board, currentPlayerSymbol) {
-    // check horizontally
     for (let i = 0; i < 3; i++) {
         if (board[i][0] === currentPlayerSymbol && board[i][1] === currentPlayerSymbol && board[i][2] === currentPlayerSymbol) {
             return true
@@ -155,9 +153,17 @@ function hasPlayerWon(board, currentPlayerSymbol) {
     return false;
 }
 
-function isDraw() {
-    return false;
+function isDraw(board) {
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            if (board[i][j] === null) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
+
 
 function switchNextPlayerTurn() {
     nextPlayer = nextPlayer === FIRST_PLAYER_SYMBOL ? SECOND_PLAYER_SYMBOL : FIRST_PLAYER_SYMBOL;
@@ -174,11 +180,18 @@ function updateBoardView(board) {
 
 function endGame(winner) {
     document.getElementById('board').replaceWith(document.getElementById('board').cloneNode(true));
-    displayWinner(winner);
+    if (winner === DRAW_GAME_RESULT) {
+        displayDrawResult();
+    } else displayWinner(winner);
 }
 
 
 function displayWinner(winner) {
     document.getElementById('player_turn_info').style.display = 'none'
-    document.getElementById('game_winner_info').innerText = `Player ${winner} won!`
+    document.getElementById('game_winner_info').innerText = `Gracz ${winner} wygrał!`
+}
+
+function displayDrawResult() {
+    document.getElementById('player_turn_info').style.display = 'none'
+    document.getElementById('game_winner_info').innerText = 'REMIS!'
 }
