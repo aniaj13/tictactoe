@@ -4,6 +4,8 @@ document.getElementById('game_info').style.display = 'none';
 document.getElementById('board').style.display = 'none'
 document.getElementById('reset_game_button').style.display = 'none'
 
+document.getElementById('reset_game_button').addEventListener('click', restartGame)
+
 const SINGLE_PLAYER_MODE = 1;
 const MULTI_PLAYER_MODE = 2;
 const SQUARE_ID_TEMPLATE = "square_{row}_{column}";
@@ -78,6 +80,7 @@ function setupBoardView() {
         for (let column = 0; column < boardView.length; column++) {
             let squareId = SQUARE_ID_TEMPLATE.replace("{row}", row).replace("{column}", column);
             boardView[row][column] = document.getElementById(squareId);
+            boardView[row][column].innerText = ''
         }
     }
 }
@@ -188,10 +191,32 @@ function endGame(winner) {
 
 function displayWinner(winner) {
     document.getElementById('player_turn_info').style.display = 'none'
+    document.getElementById('game_winner_info').style.display = 'block';
     document.getElementById('game_winner_info').innerText = `Gracz ${winner} wygrał!`
 }
 
 function displayDrawResult() {
     document.getElementById('player_turn_info').style.display = 'none'
+    document.getElementById('game_winner_info').style.display = 'block';
     document.getElementById('game_winner_info').innerText = 'REMIS!'
+}
+
+function restartGame() {
+    resetBoard()
+    resetPageView();
+    initGame(getChosenMode());
+}
+
+function resetBoard() {
+    for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board[i].length; j++) {
+            board[i][j] = null;
+        }
+    }
+    return board;
+}
+
+function resetPageView() {
+    document.getElementById('player_turn_info').style.display = 'block'
+    document.getElementById('game_winner_info').style.display = 'none';
 }
