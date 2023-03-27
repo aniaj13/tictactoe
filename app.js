@@ -27,6 +27,7 @@ const boardView = [
     [null, null, null]
 ];
 let nextPlayer;
+let isPcMakingMove = false;
 
 document.getElementById("start_game_button")
     .addEventListener('click', event => {
@@ -76,6 +77,9 @@ function initSinglePlayerGame() {
 }
 
 function onSinglePlayerSquareClick(squareId) {
+    if (isPcMakingMove === true) {
+        return
+    }
     let target = new SquareId(squareId)
     if (board[target.row][target.column]) {
         console.warn('Ignoring move, field already taken')
@@ -84,18 +88,18 @@ function onSinglePlayerSquareClick(squareId) {
     let gameResult = makeMove(nextPlayer, target);
     updateBoardView(board);
     if (gameResult.result === IN_PROGRESS_GAME_RESULT) {
+        isPcMakingMove = true;
         setTimeout(() => {
             makePcMove(nextPlayer);
+            isPcMakingMove = false;
         }, 500);
     } else if (gameResult.result === DRAW_GAME_RESULT) {
         endGame(DRAW_GAME_RESULT)
     } else if (gameResult.result === WIN_GAME_RESULT) {
         endGame(gameResult.winner);
     }
-
 }
 
-//TODO block listeners while pc makes the move
 
 function makePcMove(playerSymbol) {
     let randSquareId = generateRandSquareId();
