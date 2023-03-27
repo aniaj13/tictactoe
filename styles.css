@@ -8,7 +8,7 @@ h1 {
     font-size: 25px;
 }
 
-.board {
+.boardPanel {
     width: 604px;
     height: 604px;
     border: 2px solid grey;

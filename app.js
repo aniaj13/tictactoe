@@ -1,7 +1,24 @@
 import {SquareId} from "./square_id_class.js";
 
+function generateBoard() {
+    const htmlBoard = document.createElement('div');
+    htmlBoard.setAttribute('id', 'board')
+    for (let i = 0; i < 3; i++) {
+        const boardRow = document.createElement('div')
+        boardRow.classList.add('board_row')
+        for (let j = 0; j < 3; j++) {
+            const square = document.createElement('div');
+            square.classList.add('square')
+            square.setAttribute('id', `square_${i}_${j}`)
+            boardRow.appendChild(square);
+        }
+        htmlBoard.appendChild(boardRow);
+    }
+    document.getElementById('boardPanel').appendChild(htmlBoard);
+}
+
 document.getElementById('game_info').style.display = 'none';
-document.getElementById('board').style.display = 'none'
+document.getElementById('boardPanel').style.display = 'none'
 document.getElementById('reset_game_button').style.display = 'none'
 
 document.getElementById('reset_game_button').addEventListener('click', restartGame)
@@ -28,6 +45,7 @@ const boardView = [
 ];
 let nextPlayer;
 let isPcMakingMove = false;
+generateBoard();
 
 document.getElementById("start_game_button")
     .addEventListener('click', event => {
@@ -77,15 +95,15 @@ function initSinglePlayerGame() {
 }
 
 function onSinglePlayerSquareClick(squareId) {
-    if (isPcMakingMove === true) {
+    if (isPcMakingMove) {
         return
     }
-    let target = new SquareId(squareId)
-    if (board[target.row][target.column]) {
+    let clickedSquare = new SquareId(squareId)
+    if (board[clickedSquare.row][clickedSquare.column]) {
         console.warn('Ignoring move, field already taken')
         return {result: IN_PROGRESS_GAME_RESULT};
     }
-    let gameResult = makeMove(nextPlayer, target);
+    let gameResult = makeMove(nextPlayer, clickedSquare);
     updateBoardView(board);
     if (gameResult.result === IN_PROGRESS_GAME_RESULT) {
         isPcMakingMove = true;
@@ -99,7 +117,6 @@ function onSinglePlayerSquareClick(squareId) {
         endGame(gameResult.winner);
     }
 }
-
 
 function makePcMove(playerSymbol) {
     let randSquareId = generateRandSquareId();
@@ -149,7 +166,7 @@ function setPlayerTurnView(nextPlayer) {
 
 function setupPageView() {
     document.getElementById('game_info').style.display = 'block';
-    document.getElementById('board').style.display = 'block'
+    document.getElementById('boardPanel').style.display = 'block'
     document.getElementById('reset_game_button').style.display = 'block'
     document.getElementById('game_mode_panel').style.display = 'none'
 }
@@ -239,7 +256,7 @@ function updateBoardView(board) {
 }
 
 function endGame(winner) {
-    document.getElementById('board').replaceWith(document.getElementById('board').cloneNode(true));
+    document.getElementById('boardPanel').replaceWith(document.getElementById('boardPanel').cloneNode(true));
     document.getElementById('game_mode_panel').style.display = 'block'
     if (winner === DRAW_GAME_RESULT) {
         displayDrawResult();
