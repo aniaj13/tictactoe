@@ -54,9 +54,10 @@ function getChosenMode() {
 }
 
 function initGame(mode) {
+    resetBoard(board);
+    resetPageView();
     if (mode === SINGLE_PLAYER_MODE) {
-        throw new Error(`Given mode SINGLE_PLAYER_MODE is not supported yet. Will be realeased in the next version`);
-        // initSinglePlayerGame();
+        initSinglePlayerGame();
     } else if (mode === MULTI_PLAYER_MODE) {
         initMultiPlayerGame();
     } else if (mode === undefined) {
@@ -64,6 +65,59 @@ function initGame(mode) {
     } else {
         throw new Error(`Given mode ${mode} is not supported. Choose one of SINGLE_PLAYER_MODE and MULTI_PLAYER_MODE.`)
     }
+}
+
+function initSinglePlayerGame() {
+    setupBoardView();
+    setupPageView();
+    document.getElementById('board').addEventListener('click', event => onSinglePlayerSquareClick(event.target.id))
+    nextPlayer = FIRST_PLAYER_SYMBOL;
+    setPlayerTurnView(nextPlayer);
+}
+
+function onSinglePlayerSquareClick(squareId) {
+    let target = new SquareId(squareId)
+    if (board[target.row][target.column]) {
+        console.warn('Ignoring move, field already taken')
+        return {result: IN_PROGRESS_GAME_RESULT};
+    }
+    let gameResult = makeMove(nextPlayer, target);
+    updateBoardView(board);
+    if (gameResult.result === IN_PROGRESS_GAME_RESULT) {
+        setTimeout(() => {
+            makePcMove(nextPlayer);
+        }, 500);
+    } else if (gameResult.result === DRAW_GAME_RESULT) {
+        endGame(DRAW_GAME_RESULT)
+    } else if (gameResult.result === WIN_GAME_RESULT) {
+        endGame(gameResult.winner);
+    }
+
+}
+
+//TODO block listeners while pc makes the move
+
+function makePcMove(playerSymbol) {
+    let randSquareId = generateRandSquareId();
+    while (board[randSquareId.row][randSquareId.column] !== null) {
+        randSquareId = generateRandSquareId();
+    }
+    board[randSquareId.row][randSquareId.column] = playerSymbol;
+    updateBoardView(board);
+    let gameResult = calculateGameResult(board, playerSymbol);
+    if (gameResult.result === IN_PROGRESS_GAME_RESULT) {
+        switchNextPlayerTurn();
+    } else if (gameResult.result === WIN_GAME_RESULT) {
+        endGame(gameResult.winner)
+    } else if (gameResult.result === DRAW_GAME_RESULT) {
+        endGame(DRAW_GAME_RESULT);
+    }
+}
+
+function generateRandSquareId() {
+    let row = Math.floor(Math.random() * 3);
+    let column = Math.floor(Math.random() * 3);
+    return new SquareId(`square_${row}_${column}`);
 }
 
 function initMultiPlayerGame() {
@@ -97,7 +151,6 @@ function setupPageView() {
 }
 
 function onSquareClick(squareId) {
-    console.log(`squareId = ${squareId}`)
     let gameResult = makeMove(nextPlayer, new SquareId(squareId));
     updateBoardView(board);
     console.log(gameResult)
@@ -118,12 +171,12 @@ function makeMove(playerSymbol, squareId) {
     if (nextPlayer !== playerSymbol) {
         console.warn(`Ignoring move, not player ${playerSymbol} turn.`)
         return {result: IN_PROGRESS_GAME_RESULT};
+    } else {
+        board[squareId.row][squareId.column] = playerSymbol;
+        let gameResult = calculateGameResult(board, playerSymbol);
+        switchNextPlayerTurn();
+        return gameResult;
     }
-    // game not over
-    board[squareId.row][squareId.column] = playerSymbol;
-    let gameResult = calculateGameResult(board, playerSymbol);
-    switchNextPlayerTurn();
-    return gameResult;
 }
 
 function calculateGameResult(board, currentPlayerSymbol) {
@@ -183,6 +236,7 @@ function updateBoardView(board) {
 
 function endGame(winner) {
     document.getElementById('board').replaceWith(document.getElementById('board').cloneNode(true));
+    document.getElementById('game_mode_panel').style.display = 'block'
     if (winner === DRAW_GAME_RESULT) {
         displayDrawResult();
     } else displayWinner(winner);
@@ -202,12 +256,12 @@ function displayDrawResult() {
 }
 
 function restartGame() {
-    resetBoard()
+    resetBoard(board)
     resetPageView();
     initGame(getChosenMode());
 }
 
-function resetBoard() {
+function resetBoard(board) {
     for (let i = 0; i < board.length; i++) {
         for (let j = 0; j < board[i].length; j++) {
             board[i][j] = null;
