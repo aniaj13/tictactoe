@@ -6,48 +6,35 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
 <h1>Zagraj w Kółko i Krzyżyk</h1>
 
-<div class="gameModePanel">
+<div class="game_mode_panel" id="game_mode_panel">
     <h2>Wybierz tryb gry:</h2>
-    <form id="gameModeForm">
-        <div class="wrapper">
-            <input type="radio" name="playerChoice" id="pcPlayer">
-            <label for="pcPlayer">Zagraj z komputerem</label>
+    <form id="game_mode_choice_form">
+        <div>
+            <input type="radio" name="game_mode_choice" id="single_player_mode_option">
+            <label for="single_player_mode_option">Zagraj z komputerem</label>
         </div>
         <div>
-            <input type="radio" name="playerChoice" id="otherPlayer">
-            <label for="otherPlayer">Zagraj z drugim graczem</label>
+            <input type="radio" name="game_mode_choice" id="multi_player_mode_option">
+            <label for="multi_player_mode_option">Zagraj z drugim graczem</label>
         </div>
-        <button class="startBtn" id="startBtn">START</button>
+        <button class="start_game_button" id="start_game_button">START</button>
     </form>
 </div>
 
-<div class="extras">
-    <h2 id="gameInfo">Tura gracza: <span id="playerTurnSign"></span></h2>
-    <h2 id="winnerInfo"></h2>
+<div class="game_info" id="game_info">
+    <h2 id="player_turn_info">Tura gracza: <span id="player_turn_symbol"></span></h2>
+    <h2 id="game_winner_info"></h2>
 </div>
 
-<div class="board" id="board">
-    <div class="column1">
-        <div class="square" id="square_a"></div>
-        <div class="square" id="square_b"></div>
-        <div class="square" id="square_c"></div>
-    </div>
-    <div class="column2">
-        <div class="square" id="square_d"></div>
-        <div class="square" id="square_e"></div>
-        <div class="square" id="square_f"></div>
-    </div>
-    <div class="column3">
-        <div class="square" id="square_g"></div>
-        <div class="square" id="square_h"></div>
-        <div class="square" id="square_i"></div>
-    </div>
-</div>
+<div class="boardPanel" id="boardPanel"></div>
 
-<button class="resetBtn" id="resetBtn">Zagraj ponownie</button>
+<button class="reset_game_button" id="reset_game_button">Zagraj ponownie</button>
 
-<script src="app.js"></script>
+
+<script src="app.js" type="module"></script>
+
 </body>
 </html>
