@@ -4,24 +4,44 @@
     <meta charset="UTF-8">
     <title>Kółko i Krzyżyk</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,200;0,900;1,500&display=swap"
+          rel="stylesheet">
 </head>
 <body>
 
-<h1>Zagraj w Kółko i Krzyżyk</h1>
+<div class="upper_panel">
+    <h1><span id="O_sign">O</span><span id="X_sign">X</span></h1>
 
-<div class="game_mode_panel" id="game_mode_panel">
-    <h2>Wybierz tryb gry:</h2>
-    <form id="game_mode_choice_form">
-        <div>
-            <input type="radio" name="game_mode_choice" id="single_player_mode_option">
-            <label for="single_player_mode_option">Zagraj z komputerem</label>
-        </div>
-        <div>
-            <input type="radio" name="game_mode_choice" id="multi_player_mode_option">
-            <label for="multi_player_mode_option">Zagraj z drugim graczem</label>
-        </div>
-        <button class="start_game_button" id="start_game_button">START</button>
-    </form>
+    <div class="game_mode_panel" id="game_mode_panel">
+        <form id="game_mode_choice_form">
+            <div class="inputs">
+                <div title="Singleplayer">
+                    <input type="radio" name="game_mode_choice" id="single_player_mode_option">
+                    <label for="single_player_mode_option">
+                        <img class="icon" id="singleplayer_icon" src="icons/computer.png" alt="Singleplayer">
+                    </label>
+                </div>
+                <div title="Multiplayer">
+                    <input type="radio" name="game_mode_choice" id="multi_player_mode_option">
+                    <label for="multi_player_mode_option">
+                        <img class="icon" id="multiplayer_icon" src="icons/people.png" alt="Multiplayer">
+                    </label>
+                </div>
+            </div>
+            <button title="Start" class="start_game_button" id="start_game_button">
+                <img class='icon' id='start_icon' src="icons/play.png">
+            </button>
+        </form>
+    </div>
+
+
+    <button title='Reset'class="reset_game_button" id="reset_game_button">
+        <img class="icon" id="restart_icon" src="icons/return.png" alt="Restart">
+    </button>
+
+
 </div>
 
 <div class="game_info" id="game_info">
@@ -31,8 +51,17 @@
 
 <div class="boardPanel" id="boardPanel"></div>
 
-<button class="reset_game_button" id="reset_game_button">Zagraj ponownie</button>
-
+<div class="sources">
+    Icons made by
+    <a href="https://www.flaticon.com/authors/smartline" title="Smartline"> Smartline </a> from <a
+        href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a>
+    <a href="https://www.flaticon.com/free-icons/people" title="people icons">People icons created by Muhazdinata -
+        Flaticon</a>
+    <a href="https://www.flaticon.com/free-icons/computer" title="computer icons">Computer icons created by Freepik -
+        Flaticon</a>
+    <a href="https://www.flaticon.com/free-icons/begin" title="begin icons">Begin icons created by judanna -
+        Flaticon</a>
+</div>
 
 <script src="app.js" type="module"></script>
 

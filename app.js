@@ -165,9 +165,9 @@ function setPlayerTurnView(nextPlayer) {
 }
 
 function setupPageView() {
-    document.getElementById('game_info').style.display = 'block';
-    document.getElementById('boardPanel').style.display = 'block'
-    document.getElementById('reset_game_button').style.display = 'block'
+    document.getElementById('game_info').style.display = 'flex';
+    document.getElementById('boardPanel').style.display = 'flex'
+    document.getElementById('reset_game_button').style.display = 'flex'
     document.getElementById('game_mode_panel').style.display = 'none'
 }
 
@@ -251,13 +251,23 @@ function updateBoardView(board) {
     for (let row = 0; row < board.length; row++) {
         for (let column = 0; column < board.length; column++) {
             boardView[row][column].innerText = board[row][column];
+            styleSymbol(boardView[row][column]);
         }
+        
+    }
+}
+
+function styleSymbol(boardSquare) {
+    if (boardSquare.innerText === 'O') {
+        boardSquare.style.color = '#e0ce34'
+    } else if (boardSquare.innerText === 'X') {
+        boardSquare.style.color = '#0a62a2'
     }
 }
 
 function endGame(winner) {
     document.getElementById('boardPanel').replaceWith(document.getElementById('boardPanel').cloneNode(true));
-    document.getElementById('game_mode_panel').style.display = 'block'
+    document.getElementById('game_mode_panel').style.display = 'flex'
     if (winner === DRAW_GAME_RESULT) {
         displayDrawResult();
     } else displayWinner(winner);
@@ -266,13 +276,13 @@ function endGame(winner) {
 
 function displayWinner(winner) {
     document.getElementById('player_turn_info').style.display = 'none'
-    document.getElementById('game_winner_info').style.display = 'block';
+    document.getElementById('game_winner_info').style.display = 'flex';
     document.getElementById('game_winner_info').innerText = `Gracz ${winner} wygrał!`
 }
 
 function displayDrawResult() {
     document.getElementById('player_turn_info').style.display = 'none'
-    document.getElementById('game_winner_info').style.display = 'block';
+    document.getElementById('game_winner_info').style.display = 'flex';
     document.getElementById('game_winner_info').innerText = 'REMIS!'
 }
 
@@ -292,6 +302,6 @@ function resetBoard(board) {
 }
 
 function resetPageView() {
-    document.getElementById('player_turn_info').style.display = 'block'
+    document.getElementById('player_turn_info').style.display = 'flex'
     document.getElementById('game_winner_info').style.display = 'none';
 }

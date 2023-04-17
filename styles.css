@@ -1,17 +1,38 @@
 * {
     box-sizing: border-box;
-    font-family: sans-serif;
 }
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Raleway', sans-serif;
+    background-color: #0f273b;
+}
+
 
 h1 {
     text-align: center;
-    font-size: 25px;
+    font-size: 60px;
+    color: whitesmoke;
+    font-weight: 600;
+    margin: 0;
+}
+
+.upper_panel {
+    min-width: 700px;
+    max-width: 800px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin:  50px auto 0 auto;
+    justify-content: space-evenly;
+    border-bottom: 1px solid white;
+    padding-bottom: 10px;
 }
 
 .boardPanel {
     width: 604px;
     height: 604px;
-    border: 2px solid grey;
     margin: 0 auto;
 }
 
@@ -23,87 +44,166 @@ h1 {
     display: flex;
     width: 200px;
     height: 200px;
-    border: 1px solid whitesmoke;
-    background-color: #d06868;
     align-items: center;
     justify-content: center;
     color: whitesmoke;
     font-size: 120px;
+    font-weight: 600;
+}
+
+.board_row:not(:last-child) {
+    border-bottom: 1px solid white;
+}
+
+.square:not(:nth-child(3)) {
+    border-right: 1px solid whitesmoke;
 }
 
 .square:hover {
-    background-color: #a66464;
+    background-color: #154359;
     cursor: pointer;
 }
 
 .start_game_button {
-    width: 80px;
-    display: block;
-    margin: 10px auto;
-    padding: 0 12px;
-    border: 1px solid black;
-    border-radius: 4px;
-    background-color: rgb(8, 157, 92);
-    color: rgb(255, 255, 255);
-    font-size: 14px;
-    font-weight: 400;
-    height: 36px;
-    letter-spacing: 1px;
+    height: 50px;
+    width: 50px;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 25px;
 }
 
 .start_game_button:hover {
-    cursor: pointer;
-    color: rgb(255, 255, 255);
-    background-color: rgb(53, 208, 120);
-    border: 2px solid rgb(11, 138, 92);
+    background-color: #049a22;
 }
+
+#start_icon {
+    width: 50px;
+    height: 50px;
+    padding: 1px;
+}
+
 
 .game_info {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    margin: 0 auto;
+    justify-content: center;
+    margin: 20px auto 30px;
     height: 50px;
-    font-size: 20px;
+    width: 250px;
+    color: white;
+    background-color: #294e5e;
+    border-radius: 10px;
 }
 
-h2 {
+#game_info > * {
     text-align: center;
-    font-size: 20px;
-    margin: auto;
+    background-color: #294e5e;
+    font-weight: 500;
+    margin: 0;
+    letter-spacing: 2px;
 }
+
 
 .reset_game_button {
-    display: block;
-    text-align: center;
-    margin: 10px auto;
-    background-color: #a66464;
-    width: 200px;
-    height: 30px;
-    color: whitesmoke;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 55px;
+    width: 55px;
+    background-color: #a63333;
+    border-radius: 25px;
     border: none;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 15px;
+   // box-shadow: 0px 4px #6c3535;
 }
 
 .reset_game_button:hover {
-    background-color: #d27070;
+    background-color: #c42f2f;
     cursor: pointer;
 }
 
+
 form {
+    min-width: 400px;
     text-align: center;
     display: flex;
-    flex-direction: column;
-    margin: auto;
+    flex-direction: row;
+    position: relative;
+    justify-content: space-around;
+    align-items: center;
+    color: white;
+    padding: 0;
+    flex-grow: 1;
 }
 
 form > * {
-    margin-top: 15px;
+    color: white;
+    padding: 0;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: row;
+    width: 200px;
+    justify-content: space-around;
+}
+
+
+.icon {
+    height: 50px;
+    width: 50px;
+    padding: 0px;
+}
+
+#restart_icon {
+    height: 40px;
+    width: 40px;
 }
 
 
 
+input[type='radio']:hover + label {
+    border-bottom: 2px solid white;
+    cursor: pointer;
+}
+
+input[type='radio']:checked + label {
+    border-bottom: 2px solid white;
+}
+
+input {
+    opacity: 0;
+    position: absolute;
+}
+
+.sources {
+    width: 1200px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    bottom: 0;
+    font-size: 10px;
+    color: white;
+}
+
+.sources a {
+    color: white;
+}
+
+img {
+    background: none;
+    border: none;
+}
+
+#O_sign {
+    color: #e0ce34;
+}
+
+#X_sign {
+    color: #0a62a2;
+}
 
 
